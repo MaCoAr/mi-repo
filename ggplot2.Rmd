@@ -1,0 +1,11 @@
+---
+title: "Graphics with ggplot2"
+author: "Mauricio Correa Arango"
+date: "13 de abril de 2019"
+output: html_document
+---
+
+# Learning ggplot2
+
+Estamos aprendiendo ggplot2 va a ser increíble.
+
