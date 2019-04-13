@@ -9,3 +9,4 @@ output: html_document
 
 Estamos aprendiendo ggplot2 va a ser increíble.
 
+# Otra cosa
