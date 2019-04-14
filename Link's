@@ -8,7 +8,7 @@ http://ucsb-bren.github.io/env-info/wk06_widgets.html
 
 http://www.cookbook-r.com/Graphs/#graphs-with-ggplot2 (Re cool)
 
-
+https://plot.ly/ggplot2/geom_line/
 
 http://www.sthda.com/english/wiki/ggplot2-essentials
 
@@ -19,3 +19,9 @@ https://ggplot2.tidyverse.org/reference/ (Cool)
 /* Themes for ggplot */
 http://yutannihilation.github.io/allYourFigureAreBelongToUs/1/ 
 https://www.ggplot2-exts.org/ 
+
+/* RStudio Cheat Sheets */
+https://www.rstudio.com/resources/cheatsheets/
+
+/* Paleta de colores */
+http://www.cookbook-r.com/Graphs/Colors_(ggplot2)/
