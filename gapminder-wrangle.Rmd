@@ -6,8 +6,8 @@ output: html_document
 ---
 #Cargar Librerias y paquetes
 
-```{r Cargar Libreriras, echo=FALSE}
-install.packages("tidyverse")
+```{r Cargar Libreriras}
+#install.packages("tidyverse")
 library(tidyverse)
 ```
 
@@ -83,5 +83,67 @@ gap_long <- gap_wide %>%
 str(gap_long)
 head(gap_long)
 tail(gap_long)
+```
+
+#Gráficar los datos en formato largo
+```{r  Graficar esperanza de vida de Colombia, echo=TRUE}
+canada_df <- gap_long %>%
+  filter(obs_type == "lifeExp",
+         country == "Colombia")
+
+ggplot(canada_df, aes(x = year, y = obs_values)) +
+  geom_line()
+```
+
+#Gráficar los datos en formato largo los paieses de las amaericas
+```{r}
+life_df <- gap_long %>%
+  filter(obs_type == "lifeExp",
+         continent == "Americas")
+
+ggplot(life_df, aes(x = year, y = obs_values, color = country)) +
+  geom_line()
+```
+
+#Ejercicio, esperanza media de vidad por continente desde 1982 hasta 2007
+```{r}
+continents <- gap_long %>% 
+  filter(obs_type == "lifeExp", 
+         year > 1980) %>% 
+  group_by(continent, year) %>% 
+  summarize(mean_le = mean(obs_values)) %>%
+  ungroup()
+
+ggplot(data = continents, aes(x = year, y = mean_le, color = continent)) + 
+  geom_line() +
+  labs(title = "Mean life expectancy",
+       x = "Year",
+       y = "Age (years)") 
+
+## Additional customization
+ggplot(data = continents, aes(x = year, y = mean_le, color = continent)) + 
+  geom_line() +
+  labs(title = "Mean life expectancy",
+       x = "Year",
+       y = "Age (years)",
+       color = "Continent") +
+  theme_classic() +
+  scale_fill_brewer(palette = "Blues") 
+
+```
+
+#Función spread()
+###Transformar datos de formato largo a ancho
+```{r pasar de formato largo a ancho, echo=TRUE}
+gap_normal <- gap_long %>% 
+  spread(obs_type, obs_values)
+```
+
+###Comprobar los datos
+```{r}
+dim(gap_normal)
+dim(gapminder)
+names(gap_normal)
+names(gapminder)
 ```
 

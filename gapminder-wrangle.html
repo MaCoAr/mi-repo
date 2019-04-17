@@ -128,22 +128,329 @@ $(document).ready(function () {
 </div>
 
 
-<div id="se-utilizaran-comandos-de-dplyr-para-el-ejercicio-siguiente" class="section level2">
-<h2>Se utilizaran comandos de dplyr para el ejercicio siguiente</h2>
+<div id="cargar-librerias-y-paquetes" class="section level1">
+<h1>Cargar Librerias y paquetes</h1>
+<pre class="r"><code>#install.packages(&quot;tidyverse&quot;)
+library(tidyverse)</code></pre>
+<pre><code>## Warning: package 'tidyverse' was built under R version 3.5.3</code></pre>
+<pre><code>## -- Attaching packages ---------------------------------------------- tidyverse 1.2.1 --</code></pre>
+<pre><code>## v ggplot2 3.1.0     v purrr   0.2.5
+## v tibble  1.4.2     v dplyr   0.7.7
+## v tidyr   0.8.2     v stringr 1.3.1
+## v readr   1.1.1     v forcats 0.3.0</code></pre>
+<pre><code>## -- Conflicts ------------------------------------------------- tidyverse_conflicts() --
+## x dplyr::filter() masks stats::filter()
+## x dplyr::lag()    masks stats::lag()</code></pre>
 </div>
-<div id="se-cargan-las-librerias-necesarias" class="section level2">
-<h2>Se cargan las librerias necesarias</h2>
-<p>library(tidyverse) ## install.packages(“tidyverse”)</p>
+<div id="leer-datos" class="section level1">
+<h1>Leer datos</h1>
+<pre><code>## Parsed with column specification:
+## cols(
+##   .default = col_double(),
+##   continent = col_character(),
+##   country = col_character(),
+##   pop_2002 = col_integer(),
+##   pop_2007 = col_integer()
+## )</code></pre>
+<pre><code>## See spec(...) for full column specifications.</code></pre>
+<pre><code>## Parsed with column specification:
+## cols(
+##   country = col_character(),
+##   year = col_integer(),
+##   pop = col_double(),
+##   continent = col_character(),
+##   lifeExp = col_double(),
+##   gdpPercap = col_double()
+## )</code></pre>
 </div>
-<div id="read-gapminder-csv.-note-the-readr-prefix-identifies-which-package-its-in" class="section level2">
-<h2>read gapminder csv. Note the readr:: prefix identifies which package it’s in</h2>
-<p>gapminder &lt;- readr::read_csv(‘<a href="https://raw.githubusercontent.com/OHI-Science/data-science-training/master/data/gapminder.csv" class="uri">https://raw.githubusercontent.com/OHI-Science/data-science-training/master/data/gapminder.csv</a>’)</p>
+<div id="echar-un-vistazo" class="section level1">
+<h1>Echar un vistazo:</h1>
+<pre class="r"><code>head(gap_wide)</code></pre>
+<pre><code>## # A tibble: 6 x 38
+##   continent country gdpPercap_1952 gdpPercap_1957 gdpPercap_1962
+##   &lt;chr&gt;     &lt;chr&gt;            &lt;dbl&gt;          &lt;dbl&gt;          &lt;dbl&gt;
+## 1 Africa    Algeria          2449.          3014.          2551.
+## 2 Africa    Angola           3521.          3828.          4269.
+## 3 Africa    Benin            1063.           960.           949.
+## 4 Africa    Botswa~           851.           918.           984.
+## 5 Africa    Burkin~           543.           617.           723.
+## 6 Africa    Burundi           339.           380.           355.
+## # ... with 33 more variables: gdpPercap_1967 &lt;dbl&gt;, gdpPercap_1972 &lt;dbl&gt;,
+## #   gdpPercap_1977 &lt;dbl&gt;, gdpPercap_1982 &lt;dbl&gt;, gdpPercap_1987 &lt;dbl&gt;,
+## #   gdpPercap_1992 &lt;dbl&gt;, gdpPercap_1997 &lt;dbl&gt;, gdpPercap_2002 &lt;dbl&gt;,
+## #   gdpPercap_2007 &lt;dbl&gt;, lifeExp_1952 &lt;dbl&gt;, lifeExp_1957 &lt;dbl&gt;,
+## #   lifeExp_1962 &lt;dbl&gt;, lifeExp_1967 &lt;dbl&gt;, lifeExp_1972 &lt;dbl&gt;,
+## #   lifeExp_1977 &lt;dbl&gt;, lifeExp_1982 &lt;dbl&gt;, lifeExp_1987 &lt;dbl&gt;,
+## #   lifeExp_1992 &lt;dbl&gt;, lifeExp_1997 &lt;dbl&gt;, lifeExp_2002 &lt;dbl&gt;,
+## #   lifeExp_2007 &lt;dbl&gt;, pop_1952 &lt;dbl&gt;, pop_1957 &lt;dbl&gt;, pop_1962 &lt;dbl&gt;,
+## #   pop_1967 &lt;dbl&gt;, pop_1972 &lt;dbl&gt;, pop_1977 &lt;dbl&gt;, pop_1982 &lt;dbl&gt;,
+## #   pop_1987 &lt;dbl&gt;, pop_1992 &lt;dbl&gt;, pop_1997 &lt;dbl&gt;, pop_2002 &lt;int&gt;,
+## #   pop_2007 &lt;int&gt;</code></pre>
+<pre class="r"><code>str(gap_wide)</code></pre>
+<pre><code>## Classes 'tbl_df', 'tbl' and 'data.frame':    142 obs. of  38 variables:
+##  $ continent     : chr  &quot;Africa&quot; &quot;Africa&quot; &quot;Africa&quot; &quot;Africa&quot; ...
+##  $ country       : chr  &quot;Algeria&quot; &quot;Angola&quot; &quot;Benin&quot; &quot;Botswana&quot; ...
+##  $ gdpPercap_1952: num  2449 3521 1063 851 543 ...
+##  $ gdpPercap_1957: num  3014 3828 960 918 617 ...
+##  $ gdpPercap_1962: num  2551 4269 949 984 723 ...
+##  $ gdpPercap_1967: num  3247 5523 1036 1215 795 ...
+##  $ gdpPercap_1972: num  4183 5473 1086 2264 855 ...
+##  $ gdpPercap_1977: num  4910 3009 1029 3215 743 ...
+##  $ gdpPercap_1982: num  5745 2757 1278 4551 807 ...
+##  $ gdpPercap_1987: num  5681 2430 1226 6206 912 ...
+##  $ gdpPercap_1992: num  5023 2628 1191 7954 932 ...
+##  $ gdpPercap_1997: num  4797 2277 1233 8647 946 ...
+##  $ gdpPercap_2002: num  5288 2773 1373 11004 1038 ...
+##  $ gdpPercap_2007: num  6223 4797 1441 12570 1217 ...
+##  $ lifeExp_1952  : num  43.1 30 38.2 47.6 32 ...
+##  $ lifeExp_1957  : num  45.7 32 40.4 49.6 34.9 ...
+##  $ lifeExp_1962  : num  48.3 34 42.6 51.5 37.8 ...
+##  $ lifeExp_1967  : num  51.4 36 44.9 53.3 40.7 ...
+##  $ lifeExp_1972  : num  54.5 37.9 47 56 43.6 ...
+##  $ lifeExp_1977  : num  58 39.5 49.2 59.3 46.1 ...
+##  $ lifeExp_1982  : num  61.4 39.9 50.9 61.5 48.1 ...
+##  $ lifeExp_1987  : num  65.8 39.9 52.3 63.6 49.6 ...
+##  $ lifeExp_1992  : num  67.7 40.6 53.9 62.7 50.3 ...
+##  $ lifeExp_1997  : num  69.2 41 54.8 52.6 50.3 ...
+##  $ lifeExp_2002  : num  71 41 54.4 46.6 50.6 ...
+##  $ lifeExp_2007  : num  72.3 42.7 56.7 50.7 52.3 ...
+##  $ pop_1952      : num  9279525 4232095 1738315 442308 4469979 ...
+##  $ pop_1957      : num  10270856 4561361 1925173 474639 4713416 ...
+##  $ pop_1962      : num  11000948 4826015 2151895 512764 4919632 ...
+##  $ pop_1967      : num  12760499 5247469 2427334 553541 5127935 ...
+##  $ pop_1972      : num  14760787 5894858 2761407 619351 5433886 ...
+##  $ pop_1977      : num  17152804 6162675 3168267 781472 5889574 ...
+##  $ pop_1982      : num  20033753 7016384 3641603 970347 6634596 ...
+##  $ pop_1987      : num  23254956 7874230 4243788 1151184 7586551 ...
+##  $ pop_1992      : num  26298373 8735988 4981671 1342614 8878303 ...
+##  $ pop_1997      : num  29072015 9875024 6066080 1536536 10352843 ...
+##  $ pop_2002      : int  31287142 10866106 7026113 1630347 12251209 7021078 15929988 4048013 8835739 614382 ...
+##  $ pop_2007      : int  33333216 12420476 8078314 1639131 14326203 8390505 17696293 4369038 10238807 710960 ...
+##  - attr(*, &quot;spec&quot;)=List of 2
+##   ..$ cols   :List of 38
+##   .. ..$ continent     : list()
+##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_character&quot; &quot;collector&quot;
+##   .. ..$ country       : list()
+##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_character&quot; &quot;collector&quot;
+##   .. ..$ gdpPercap_1952: list()
+##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_double&quot; &quot;collector&quot;
+##   .. ..$ gdpPercap_1957: list()
+##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_double&quot; &quot;collector&quot;
+##   .. ..$ gdpPercap_1962: list()
+##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_double&quot; &quot;collector&quot;
+##   .. ..$ gdpPercap_1967: list()
+##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_double&quot; &quot;collector&quot;
+##   .. ..$ gdpPercap_1972: list()
+##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_double&quot; &quot;collector&quot;
+##   .. ..$ gdpPercap_1977: list()
+##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_double&quot; &quot;collector&quot;
+##   .. ..$ gdpPercap_1982: list()
+##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_double&quot; &quot;collector&quot;
+##   .. ..$ gdpPercap_1987: list()
+##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_double&quot; &quot;collector&quot;
+##   .. ..$ gdpPercap_1992: list()
+##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_double&quot; &quot;collector&quot;
+##   .. ..$ gdpPercap_1997: list()
+##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_double&quot; &quot;collector&quot;
+##   .. ..$ gdpPercap_2002: list()
+##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_double&quot; &quot;collector&quot;
+##   .. ..$ gdpPercap_2007: list()
+##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_double&quot; &quot;collector&quot;
+##   .. ..$ lifeExp_1952  : list()
+##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_double&quot; &quot;collector&quot;
+##   .. ..$ lifeExp_1957  : list()
+##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_double&quot; &quot;collector&quot;
+##   .. ..$ lifeExp_1962  : list()
+##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_double&quot; &quot;collector&quot;
+##   .. ..$ lifeExp_1967  : list()
+##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_double&quot; &quot;collector&quot;
+##   .. ..$ lifeExp_1972  : list()
+##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_double&quot; &quot;collector&quot;
+##   .. ..$ lifeExp_1977  : list()
+##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_double&quot; &quot;collector&quot;
+##   .. ..$ lifeExp_1982  : list()
+##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_double&quot; &quot;collector&quot;
+##   .. ..$ lifeExp_1987  : list()
+##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_double&quot; &quot;collector&quot;
+##   .. ..$ lifeExp_1992  : list()
+##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_double&quot; &quot;collector&quot;
+##   .. ..$ lifeExp_1997  : list()
+##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_double&quot; &quot;collector&quot;
+##   .. ..$ lifeExp_2002  : list()
+##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_double&quot; &quot;collector&quot;
+##   .. ..$ lifeExp_2007  : list()
+##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_double&quot; &quot;collector&quot;
+##   .. ..$ pop_1952      : list()
+##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_double&quot; &quot;collector&quot;
+##   .. ..$ pop_1957      : list()
+##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_double&quot; &quot;collector&quot;
+##   .. ..$ pop_1962      : list()
+##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_double&quot; &quot;collector&quot;
+##   .. ..$ pop_1967      : list()
+##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_double&quot; &quot;collector&quot;
+##   .. ..$ pop_1972      : list()
+##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_double&quot; &quot;collector&quot;
+##   .. ..$ pop_1977      : list()
+##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_double&quot; &quot;collector&quot;
+##   .. ..$ pop_1982      : list()
+##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_double&quot; &quot;collector&quot;
+##   .. ..$ pop_1987      : list()
+##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_double&quot; &quot;collector&quot;
+##   .. ..$ pop_1992      : list()
+##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_double&quot; &quot;collector&quot;
+##   .. ..$ pop_1997      : list()
+##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_double&quot; &quot;collector&quot;
+##   .. ..$ pop_2002      : list()
+##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_integer&quot; &quot;collector&quot;
+##   .. ..$ pop_2007      : list()
+##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_integer&quot; &quot;collector&quot;
+##   ..$ default: list()
+##   .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_guess&quot; &quot;collector&quot;
+##   ..- attr(*, &quot;class&quot;)= chr &quot;col_spec&quot;</code></pre>
 </div>
-<div id="explore-the-gapminder-dataset" class="section level2">
-<h2>explore the gapminder dataset</h2>
-<p>gapminder # this is super long! Let’s inspect in different ways</p>
-<p>head(gapminder) # shows first 6 tail(gapminder) # shows last 6</p>
-<p>head(gapminder, 10) # shows first X that you indicate tail(gapminder, 12) # guess what this does!</p>
+<div id="transponer-datos" class="section level1">
+<h1>Transponer datos</h1>
+<pre class="r"><code>gap_long &lt;- gap_wide %&gt;% 
+  gather(key   = obstype_year,
+         value = obs_values)</code></pre>
+</div>
+<div id="inspecciona" class="section level1">
+<h1>Inspecciona</h1>
+<pre class="r"><code>str(gap_long)</code></pre>
+<pre><code>## Classes 'tbl_df', 'tbl' and 'data.frame':    5396 obs. of  2 variables:
+##  $ obstype_year: chr  &quot;continent&quot; &quot;continent&quot; &quot;continent&quot; &quot;continent&quot; ...
+##  $ obs_values  : chr  &quot;Africa&quot; &quot;Africa&quot; &quot;Africa&quot; &quot;Africa&quot; ...</code></pre>
+<pre class="r"><code>head(gap_long)</code></pre>
+<pre><code>## # A tibble: 6 x 2
+##   obstype_year obs_values
+##   &lt;chr&gt;        &lt;chr&gt;     
+## 1 continent    Africa    
+## 2 continent    Africa    
+## 3 continent    Africa    
+## 4 continent    Africa    
+## 5 continent    Africa    
+## 6 continent    Africa</code></pre>
+<pre class="r"><code>tail(gap_long)</code></pre>
+<pre><code>## # A tibble: 6 x 2
+##   obstype_year obs_values
+##   &lt;chr&gt;        &lt;chr&gt;     
+## 1 pop_2007     9031088   
+## 2 pop_2007     7554661   
+## 3 pop_2007     71158647  
+## 4 pop_2007     60776238  
+## 5 pop_2007     20434176  
+## 6 pop_2007     4115771</code></pre>
+</div>
+<div id="volver-a-transponer-datos-de-forma-adecuada-y-revizarlo" class="section level1">
+<h1>Volver a transponer datos de forma adecuada y revizarlo</h1>
+<pre class="r"><code>gap_long &lt;- gap_wide %&gt;% 
+  gather(key   = obstype_year,
+         value = obs_values,
+         dplyr::starts_with('pop'),
+         dplyr::starts_with('lifeExp'),
+         dplyr::starts_with('gdpPercap'))  #here i'm listing all the columns to use in gather
+
+str(gap_long)</code></pre>
+<pre><code>## Classes 'tbl_df', 'tbl' and 'data.frame':    5112 obs. of  4 variables:
+##  $ continent   : chr  &quot;Africa&quot; &quot;Africa&quot; &quot;Africa&quot; &quot;Africa&quot; ...
+##  $ country     : chr  &quot;Algeria&quot; &quot;Angola&quot; &quot;Benin&quot; &quot;Botswana&quot; ...
+##  $ obstype_year: chr  &quot;pop_1952&quot; &quot;pop_1952&quot; &quot;pop_1952&quot; &quot;pop_1952&quot; ...
+##  $ obs_values  : num  9279525 4232095 1738315 442308 4469979 ...</code></pre>
+<pre class="r"><code>head(gap_long)</code></pre>
+<pre><code>## # A tibble: 6 x 4
+##   continent country      obstype_year obs_values
+##   &lt;chr&gt;     &lt;chr&gt;        &lt;chr&gt;             &lt;dbl&gt;
+## 1 Africa    Algeria      pop_1952        9279525
+## 2 Africa    Angola       pop_1952        4232095
+## 3 Africa    Benin        pop_1952        1738315
+## 4 Africa    Botswana     pop_1952         442308
+## 5 Africa    Burkina Faso pop_1952        4469979
+## 6 Africa    Burundi      pop_1952        2445618</code></pre>
+<pre class="r"><code>tail(gap_long)</code></pre>
+<pre><code>## # A tibble: 6 x 4
+##   continent country        obstype_year   obs_values
+##   &lt;chr&gt;     &lt;chr&gt;          &lt;chr&gt;               &lt;dbl&gt;
+## 1 Europe    Sweden         gdpPercap_2007     33860.
+## 2 Europe    Switzerland    gdpPercap_2007     37506.
+## 3 Europe    Turkey         gdpPercap_2007      8458.
+## 4 Europe    United Kingdom gdpPercap_2007     33203.
+## 5 Oceania   Australia      gdpPercap_2007     34435.
+## 6 Oceania   New Zealand    gdpPercap_2007     25185.</code></pre>
+</div>
+<div id="transponer-datos-excluyendo-columnas-y-revizarlo" class="section level1">
+<h1>Transponer datos excluyendo columnas y revizarlo</h1>
+<pre class="r"><code>gap_long &lt;- gap_wide %&gt;% 
+  gather(key   = obstype_year,
+         value = obs_values,
+         -continent, -country)
+
+str(gap_long)</code></pre>
+<pre><code>## Classes 'tbl_df', 'tbl' and 'data.frame':    5112 obs. of  4 variables:
+##  $ continent   : chr  &quot;Africa&quot; &quot;Africa&quot; &quot;Africa&quot; &quot;Africa&quot; ...
+##  $ country     : chr  &quot;Algeria&quot; &quot;Angola&quot; &quot;Benin&quot; &quot;Botswana&quot; ...
+##  $ obstype_year: chr  &quot;gdpPercap_1952&quot; &quot;gdpPercap_1952&quot; &quot;gdpPercap_1952&quot; &quot;gdpPercap_1952&quot; ...
+##  $ obs_values  : num  2449 3521 1063 851 543 ...</code></pre>
+<pre class="r"><code>head(gap_long)</code></pre>
+<pre><code>## # A tibble: 6 x 4
+##   continent country      obstype_year   obs_values
+##   &lt;chr&gt;     &lt;chr&gt;        &lt;chr&gt;               &lt;dbl&gt;
+## 1 Africa    Algeria      gdpPercap_1952      2449.
+## 2 Africa    Angola       gdpPercap_1952      3521.
+## 3 Africa    Benin        gdpPercap_1952      1063.
+## 4 Africa    Botswana     gdpPercap_1952       851.
+## 5 Africa    Burkina Faso gdpPercap_1952       543.
+## 6 Africa    Burundi      gdpPercap_1952       339.</code></pre>
+<pre class="r"><code>tail(gap_long)</code></pre>
+<pre><code>## # A tibble: 6 x 4
+##   continent country        obstype_year obs_values
+##   &lt;chr&gt;     &lt;chr&gt;          &lt;chr&gt;             &lt;dbl&gt;
+## 1 Europe    Sweden         pop_2007        9031088
+## 2 Europe    Switzerland    pop_2007        7554661
+## 3 Europe    Turkey         pop_2007       71158647
+## 4 Europe    United Kingdom pop_2007       60776238
+## 5 Oceania   Australia      pop_2007       20434176
+## 6 Oceania   New Zealand    pop_2007        4115771</code></pre>
+</div>
+<div id="separar-datos-de-una-misma-columna" class="section level1">
+<h1>Separar datos de una misma columna</h1>
+<pre class="r"><code>gap_long &lt;- gap_wide %&gt;% 
+  gather(key   = obstype_year,
+         value = obs_values,
+         -continent, -country) %&gt;%
+  separate(obstype_year,
+           into = c('obs_type','year'),
+           sep = &quot;_&quot;,
+           convert = TRUE) #this ensures that the year column is an integer rather than a character</code></pre>
+</div>
+<div id="inspeccionar-los-datos" class="section level1">
+<h1>Inspeccionar los datos</h1>
+<pre class="r"><code>str(gap_long)</code></pre>
+<pre><code>## Classes 'tbl_df', 'tbl' and 'data.frame':    5112 obs. of  5 variables:
+##  $ continent : chr  &quot;Africa&quot; &quot;Africa&quot; &quot;Africa&quot; &quot;Africa&quot; ...
+##  $ country   : chr  &quot;Algeria&quot; &quot;Angola&quot; &quot;Benin&quot; &quot;Botswana&quot; ...
+##  $ obs_type  : chr  &quot;gdpPercap&quot; &quot;gdpPercap&quot; &quot;gdpPercap&quot; &quot;gdpPercap&quot; ...
+##  $ year      : int  1952 1952 1952 1952 1952 1952 1952 1952 1952 1952 ...
+##  $ obs_values: num  2449 3521 1063 851 543 ...</code></pre>
+<pre class="r"><code>head(gap_long)</code></pre>
+<pre><code>## # A tibble: 6 x 5
+##   continent country      obs_type   year obs_values
+##   &lt;chr&gt;     &lt;chr&gt;        &lt;chr&gt;     &lt;int&gt;      &lt;dbl&gt;
+## 1 Africa    Algeria      gdpPercap  1952      2449.
+## 2 Africa    Angola       gdpPercap  1952      3521.
+## 3 Africa    Benin        gdpPercap  1952      1063.
+## 4 Africa    Botswana     gdpPercap  1952       851.
+## 5 Africa    Burkina Faso gdpPercap  1952       543.
+## 6 Africa    Burundi      gdpPercap  1952       339.</code></pre>
+<pre class="r"><code>tail(gap_long)</code></pre>
+<pre><code>## # A tibble: 6 x 5
+##   continent country        obs_type  year obs_values
+##   &lt;chr&gt;     &lt;chr&gt;          &lt;chr&gt;    &lt;int&gt;      &lt;dbl&gt;
+## 1 Europe    Sweden         pop       2007    9031088
+## 2 Europe    Switzerland    pop       2007    7554661
+## 3 Europe    Turkey         pop       2007   71158647
+## 4 Europe    United Kingdom pop       2007   60776238
+## 5 Oceania   Australia      pop       2007   20434176
+## 6 Oceania   New Zealand    pop       2007    4115771</code></pre>
 </div>
 
 
