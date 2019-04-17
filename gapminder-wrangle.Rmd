@@ -1,0 +1,87 @@
+---
+title: "gapminder-wrangle"
+author: "MaCoAr"
+date: "15 de abril de 2019"
+output: html_document
+---
+#Cargar Librerias y paquetes
+
+```{r Cargar Libreriras, echo=FALSE}
+install.packages("tidyverse")
+library(tidyverse)
+```
+
+#Leer datos
+```{r Leer datos, echo= FALSE}
+## wide format
+gap_wide <- readr::read_csv('https://raw.githubusercontent.com/OHI-Science/data-science-training/master/data/gapminder_wide.csv')
+
+## yesterday's format
+gapminder <- readr::read_csv('https://raw.githubusercontent.com/OHI-Science/data-science-training/master/data/gapminder.csv')
+```
+
+#Echar un vistazo:
+```{r Visualizar las primeras filas, echo=TRUE}
+head(gap_wide)
+str(gap_wide)
+```
+
+#Transponer datos
+```{r Tasnponer datos, echo= TRUE}
+gap_long <- gap_wide %>% 
+  gather(key   = obstype_year,
+         value = obs_values)
+```
+
+# Inspecciona
+```{r}
+str(gap_long)
+head(gap_long)
+tail(gap_long)
+```
+
+#Volver a transponer datos de forma adecuada y revizarlo
+```{r Transponer datos de forma adecuada, echo=TRUE}
+gap_long <- gap_wide %>% 
+  gather(key   = obstype_year,
+         value = obs_values,
+         dplyr::starts_with('pop'),
+         dplyr::starts_with('lifeExp'),
+         dplyr::starts_with('gdpPercap'))  #here i'm listing all the columns to use in gather
+
+str(gap_long)
+head(gap_long)
+tail(gap_long)
+```
+
+#Transponer datos excluyendo columnas y revizarlo
+```{r}
+gap_long <- gap_wide %>% 
+  gather(key   = obstype_year,
+         value = obs_values,
+         -continent, -country)
+
+str(gap_long)
+head(gap_long)
+tail(gap_long)
+```
+
+#Separar datos de una misma columna
+```{r seperar datos de una misma columna, echo = TRUE}
+gap_long <- gap_wide %>% 
+  gather(key   = obstype_year,
+         value = obs_values,
+         -continent, -country) %>%
+  separate(obstype_year,
+           into = c('obs_type','year'),
+           sep = "_",
+           convert = TRUE) #this ensures that the year column is an integer rather than a character
+```
+
+#Inspeccionar los datos
+```{r Inspeccionar los datos,echo=TRUE}
+str(gap_long)
+head(gap_long)
+tail(gap_long)
+```
+
